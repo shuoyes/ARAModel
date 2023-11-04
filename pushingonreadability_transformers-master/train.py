@@ -117,8 +117,8 @@ def evaluate_on(model, dataloader):
 
 def save(args, model, info, k_cnt, l_cnt,dfs):
     # save model
-    os.makedirs('checkpoint', exist_ok=True)
-    save_dir = os.path.join('checkpoint', f'{args.corpus_name}.{args.model.lower()}.{k_cnt}.{l_cnt}')
+    os.makedirs('/content/drive/MyDrive/Colab Notebooks/checkpoint', exist_ok=True)
+    save_dir = os.path.join('/content/drive/MyDrive/Colab Notebooks/checkpoint', f'{args.corpus_name}.{args.model.lower()}.{k_cnt}.{l_cnt}')
     dfs.to_csv(save_dir+".csv")
     model.save_pretrained(save_dir)
 #     # DEPRECATED: we decided to have global k-fold to keep consistency on different models
@@ -161,7 +161,7 @@ parser.add_argument('--model',
                     type=str,
                     help="model to use for classification")
 parser.add_argument('--batch_size',
-                    default=8,
+                    default=4,
                     type=int,
                     help="size of a batch for each iteration both on training and evaluation process")
 parser.add_argument('--learning_rate',
