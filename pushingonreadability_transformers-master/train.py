@@ -127,7 +127,8 @@ def save(args, model, info, k_cnt, l_cnt,dfs):
     #valid_df.to_csv(os.path.join(save_dir, 'valid_df.csv'), index=False)
     #test_df.to_csv(os.path.join(save_dir, 'test_df.csv'), index=False)
     with open(os.path.join(save_dir, 'info.txt'), 'w') as f:
-        f.write(' '.join(map(str, info)))
+        for key, value in info.items():
+            f.write(f'{key}: {value}\n')
 
 
 # arguments
@@ -347,28 +348,16 @@ for k_cnt in range(num_kfold):
                         test_f1,
                         test_qwk
                     ))
-                    info = [
-                        epoch + ((batch_idx + 1) / len(train_loader)),
-                        train_acc,
-                        train_f1,
-                        train_p,
-                        train_r,
-                        train_qwk,
-                        valid_acc,
-                        valid_f1,
-                        valid_p,
-                        valid_r,
-                        valid_qwk,
-                        test_acc,
-                        test_f1,
-                        test_p,
-                        test_r,
-                        test_qwk,
-                        time.time() - start_time,
-                        abs(train_f1 - valid_f1)
-                    ]
+                    info = {
+                        "test_acc":test_acc,
+                        "test_f1":test_f1,
+                        "test_p":test_p,
+                        "test_r":test_r,
+                        "test_qwk":test_qwk,
+                        "run_time":time.time() - start_time,
+                    }
                 else:
-                    info = ['no evaluation done']
+                    info = {"message":'no evaluation done'}
                 save(args, model, info, k_cnt, l_cnt,finalDfs)
                 l_cnt += 1
     if args.one_fold:
